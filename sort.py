@@ -1,5 +1,6 @@
 from typing import *
 
+
 class Sort:
     def __init__(self, array: List, size: int) -> None:
         self.array = array
