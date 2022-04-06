@@ -1,3 +1,6 @@
+from typing import *
+
+
 class TreeNode:
     def __init__(self, value):
         self.value = value
@@ -29,8 +32,18 @@ def post_traversal(root):
     print(root.value)
 
 
+def inverse_binary_tree(root) -> TreeNode:
+    if not root:
+        return
+    left = inverse_binary_tree(root.left)
+    right = inverse_binary_tree(root.right)
+    root.left, root.right = right, left
+    return root
+
+
 def build_tree():
     node = [1, 2, 3, 4, 5, 6, 7]
+    # node = [4, 2, 7, 1, 3, 6, 9]
     root = TreeNode(node[0])
     node_queue = [root]
     index = 1
@@ -45,6 +58,14 @@ def build_tree():
     return root
 
 
+def print_tree(root):
+    if not root:
+        return
+    print(root.value)
+    print_tree(root.left)
+    print_tree(root.right)
+
+
 if __name__ == "__main__":
     root = build_tree()
     print("pre_traversal:")
@@ -53,6 +74,8 @@ if __name__ == "__main__":
     in_traversal(root)
     print("post_traversal:")
     post_traversal(root)
-
-# def test_pre_traversal():
-#     pass
+    print("inverse_binery_tree:")
+    root = inverse_binary_tree(root)
+    print_tree(root)
+    print("pre_traversal:")
+    pre_traversal(root)
