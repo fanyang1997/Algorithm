@@ -2,6 +2,17 @@ import numpy as np
 
 
 class Norm:
+    """
+    Class that normalizes a matrix
+    Args:
+        X: numpy.ndarray of shape (n, m)
+        norm: indicates the norm to be applied to each column
+    Raises:
+        TypeError: if X is not a numpy.ndarray
+        ValueError: if norm is not a valid value
+    Returns:
+        The normalized X matrix
+    """
     def __init__(self, x, norm='batch'):
         self.x = x
         self.norm = norm
