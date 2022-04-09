@@ -107,6 +107,8 @@ class BinaryTreeAlg:
             result.append(root.value)
         self.right_view_binary_tree_helper(root.right, result, depth + 1)
 
+        
+
 
 def build_tree():
     node = [1, 2, 3, 4, 5, 6, 7]
