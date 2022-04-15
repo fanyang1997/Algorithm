@@ -1,0 +1,534 @@
+<!--
+    THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=line-gradient&lang=ts
+-->
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body style="height: 100%; margin: 0">
+        <div id="container" style="height: 100%"></div>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+        <!-- Uncomment this line if you want to dataTool extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/extension/dataTool.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use gl extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to echarts-stat extension
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+        -->
+        <!-- Uncomment this line if you want to use map
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/map/js/china.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/map/js/world.js"></script>
+        -->
+        <!-- Uncomment these two lines if you want to use bmap extension
+        <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=<Your Key Here>"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@{{version}}/dist/extension/bmap.min.js"></script>
+        -->
+
+        <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom, 'dark');
+var app = {};
+
+var option;
+
+
+const month = ["Jan",	"Feb", "Mar", "Apr", "May",	"Jun", "Jul", "Aug", "Sep",	"Oct", "Nov", "Dec"]
+const years = [];
+
+
+for (let i = 0; i < 20; i++) {
+    years.push(String(2002 + i))
+}
+var year_month = []
+for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < month.length; j++) {
+        year_month.push(month[j] + " " + years[i])
+    }
+}
+year_month.push("Jan 2022")
+year_month.push("Feb 2022")
+year_month.push("Mar 2022")
+
+const unemployment_rate = Array();
+
+
+const inflation_rate = [
+    1.1,
+1.1,
+1.5,
+1.6,
+1.2,
+1.1,
+1.5,
+1.8,
+1.5,
+2,
+2.2,
+2.4,
+
+2.6,
+3,
+3,
+2.2,
+2.1,
+2.1,
+2.1,
+2.2,
+2.3,
+2,
+1.8,
+1.9,
+
+1.9,
+1.7,
+1.7,
+2.3,
+3.1,
+3.3,
+3,
+2.7,
+2.5,
+3.2,
+3.5,
+3.3,
+
+3,
+3,
+3.1,
+3.5,
+2.8,
+2.5,
+3.2,
+3.6,
+4.7,
+4.3,
+3.5,
+3.4,
+
+4,
+3.6,
+3.4,
+3.5,
+4.2,
+4.3,
+4.1,
+3.8,
+2.1,
+1.3,
+2,
+2.5,
+
+2.1,
+2.4,
+2.8,
+2.6,
+2.7,
+2.7,
+2.4,
+2,
+2.8,
+3.5,
+4.3,
+4.1,
+
+4.3,
+4,
+4,
+3.9,
+4.2,
+5,
+5.6,
+5.4,
+4.9,
+3.7,
+1.1,
+0.1,
+
+0,
+0.2,
+-0.4,
+-0.7,
+-1.3,
+-1.4,
+-2.1,
+-1.5,
+-1.3,
+-0.2,
+1.8,
+2.7,
+
+2.6,
+2.1,
+2.3,
+2.2,
+2,
+1.1,
+1.2,
+1.1,
+1.1,
+1.2,
+1.1,
+1.5,
+
+1.6,
+2.1,
+2.7,
+3.2,
+3.6,
+3.6,
+3.6,
+3.8,
+3.9,
+3.5,
+3.4,
+3,
+
+2.9,
+2.9,
+2.7,
+2.3,
+1.7,
+1.7,
+1.4,
+1.7,
+2,
+2.2,
+1.8,
+1.7,
+
+1.6,
+2,
+1.5,
+1.1,
+1.4,
+1.8,
+2,
+1.5,
+1.2,
+1,
+1.2,
+1.5,
+
+1.6,
+1.1,
+1.5,
+2,
+2.1,
+2.1,
+2,
+1.7,
+1.7,
+1.7,
+1.3,
+0.8,
+
+-0.1,
+0,
+-0.1,
+-0.2,
+0,
+0.1,
+0.2,
+0.2,
+0,
+0.2,
+0.5,
+0.7,
+
+1.4,
+1,
+0.9,
+1.1,
+1,
+1,
+0.8,
+1.1,
+1.5,
+1.6,
+1.7,
+2.1,
+
+2.5,
+2.7,
+2.4,
+2.2,
+1.9,
+1.6,
+1.7,
+1.9,
+2.2,
+2,
+2.2,
+2.1,
+
+2.1,
+2.2,
+2.4,
+2.5,
+2.8,
+2.9,
+2.9,
+2.7,
+2.3,
+2.5,
+2.2,
+1.9,
+
+1.6,
+1.5,
+1.9,
+2,
+1.8,
+1.6,
+1.8,
+1.7,
+1.7,
+1.8,
+2.1,
+2.3,
+
+2.5,
+2.3,
+1.5,
+0.3,
+0.1,
+0.6,
+1,
+1.3,
+1.4,
+1.2,
+1.2,
+1.4,
+
+1.4,
+1.7,
+2.6,
+4.2,
+5,
+5.4,
+5.4,
+5.3,
+5.4,
+6.2,
+6.8,
+7,
+
+7.5,
+7.9,
+8.5,
+];
+const seriesLabel = {
+  show: true
+};
+function get_data() {
+    var data = [];
+    var len = 0;
+
+    for (let i = 0; i < 243; i++) {
+        let item = Array();
+        item[0] = year_month[i];
+        item[1] = inflation_rate[i];
+        data.push(item);
+    }
+    return data;
+}
+
+
+
+const data = get_data();
+// console.log(data);
+
+// prettier-ignore
+// const data = [["2000-01-01",116],["2000-02-01",129],
+// ["2000-03-01",100],["2000-04-01",86],
+// ["2000-06-09",73],["2000-06-10",85],
+// ["2000-06-11",73],["2000-06-12",68],
+// ["2000-06-13",92],["2000-06-14",130],
+// ["2000-06-15",245],["2000-06-16",139],
+// ["2000-06-17",115],["2000-06-18",111],
+// ["2000-06-19",309],["2000-06-20",206],
+// ["2000-06-21",137],["2000-06-22",128],
+// ["2000-06-23",85],["2000-06-24",94],
+// ["2000-06-25",71],["2000-06-26",106],
+// ["2000-06-27",84],["2000-06-28",93],
+// ["2000-06-29",85],["2000-06-30",73],
+// ["2000-07-01",83],["2000-07-02",125],
+// ["2000-07-03",107],["2000-07-04",82],
+// ["2000-07-05",44],["2000-07-06",72],
+// ["2000-07-07",106],["2000-07-08",107],
+// ["2000-07-09",66],["2000-07-10",91],
+// ["2000-07-11",92],["2000-07-12",113],
+// ["2000-07-13",107],["2000-07-14",131],
+// ["2000-07-15",111],["2000-07-16",64],
+// ["2000-07-17",69],["2000-07-18",88],
+// ["2000-07-19",77],["2000-07-20",83],
+// ["2000-07-21",111],["2000-07-22",57],
+// ["2000-07-23",55],["2000-07-24",60]];
+
+const dateList = data.map(function (item) {
+  return item[0];
+});
+const valueList = data.map(function (item) {
+  return item[1];
+});
+
+const y_mean = Math.round(valueList.reduce((a, b) => a + b, 0) / valueList.length);
+const y_mean_array = Array(valueList.length).fill(y_mean);
+// round()
+
+const y_mean_3_month = valueList.slice(-3).reduce((a, b) => a + b, 0) / 3;
+
+
+option = {
+  // Make gradient line here
+  visualMap: [
+    {
+      show: false,
+      type: 'continuous',
+      seriesIndex: 0,
+      min: 0,
+      max: 400
+    },
+    {
+      show: false,
+      type: 'continuous',
+      seriesIndex: 1,
+      dimension: 0,
+      min: 0,
+      max: dateList.length - 1
+    },
+      {
+          show: false,
+	      type: 'continuous',
+	      seriesIndex: 2,
+	      dimension: 1,
+	      min: 0,
+	      max: dateList.length - 1
+      }
+  ],
+
+  title: [
+    {
+      left: 'center',
+      text: 'US Unemployment Rate\n' +
+              'U.S. Unemployment Rate in 20 Years',
+        textStyle: {
+          fontStyle: 'italic'
+        }
+    },
+          {
+          top: '43%',
+      right: 'top',
+      text: 'data source: U.S. Bureau of Labor Statistics\n' +
+              '@chart by terence',
+          textStyle: {
+      fontSize: 15,
+      fontStyle: "italic"
+    }
+      },
+    {
+      top: '55%',
+      left: 'center',
+      text: 'US inflation (monthly, %)\n' +
+              'U.S. Inflation Reach High in 20 Years',
+        textStyle: {
+          fontStyle: 'italic'
+        }
+    },
+      {
+          top: '95%',
+      right: 'top',
+      text: 'data source: U.S. Bureau of Labor Statistics\n' +
+              '@chart by terence',
+          textStyle: {
+      fontSize: 15,
+      fontStyle: "italic"
+    }
+      }
+  ],
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: [
+    {
+      data: dateList
+    },
+    {
+      data: dateList,
+      gridIndex: 1
+    },
+      {
+          data: dateList,
+	      gridIndex: 2
+      }
+  ],
+  yAxis: [
+    {},
+    {
+      gridIndex: 1
+    },
+      {
+          gridIndex: 2
+      }
+  ],
+  grid: [
+    {
+      bottom: '60%'
+    },
+    {
+      top: '60%'
+    },
+      {
+          top: '30'
+      }
+  ],
+  series: [
+    {
+      type: 'line',
+      showSymbol: false,
+      data: valueList,
+        smooth: true
+    },
+    {
+      type: 'line',
+      showSymbol: false,
+      data: valueList,
+
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+        smooth: true,
+         label: seriesLabel,
+
+    },
+      {
+          type: 'line',
+          showSymbol: false,
+          data: y_mean_array,
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          color: 'pink',
+      },
+      {
+          type: 'line',
+	      showSymbol: false,
+	      data: valueList-2,
+	      smooth: true,
+	      xAxisIndex: 2,
+	      yAxisIndex: 2,
+      }
+
+  ]
+};
+
+
+
+if (option && typeof option === 'object') {
+    myChart.setOption(option);
+}
+
+        </script>
+    </body>
+</html>
