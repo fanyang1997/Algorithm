@@ -67,7 +67,7 @@ class BinaryTreeAlg:
         queue = [root]
         while queue:
             level = []
-            for _ in range(len(queue)):
+            for _ in range(len(queue)): # [3, 4, 5]
                 node = queue.pop(0)
                 level.append(node.value)
                 if node.left:
@@ -136,19 +136,26 @@ def print_tree(root):
 
 
 if __name__ == "__main__":
-    root = build_tree()
+    # root = build_tree()
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(3)
+    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+    root.right.left = TreeNode(6)
+    root.right.right = TreeNode(7)
     bta = BinaryTreeAlg(root)
-    print("pre_traversal:")
-    bta.pre_traversal(root)
-    print("in_traversal:")
-    bta.in_traversal(root)
-    print("post_traversal:")
-    bta.post_traversal(root)
-    print("inverse_binery_tree:")
-    root = bta.inverse_binary_tree(root)
-    print_tree(root)
-    print("pre_traversal:")
-    bta.pre_traversal(root)
+    # print("pre_traversal:")
+    # bta.pre_traversal(root)
+    # print("in_traversal:")
+    # bta.in_traversal(root)
+    # print("post_traversal:")
+    # bta.post_traversal(root)
+    # print("inverse_binery_tree:")
+    # root = bta.inverse_binary_tree(root)
+    # print_tree(root)
+    # print("pre_traversal:")
+    # bta.pre_traversal(root)
 
     pre_order_test_case = {
         "[]": [],
@@ -164,6 +171,7 @@ if __name__ == "__main__":
         "[1, 2, 3]": [2, 1, 3]
     }
 
-    for key, value in pre_order_test_case.items():
-        print(key, ":", value)
-        assert bta.pre_traversal_stack(root) == value
+    # for key, value in pre_order_test_case.items():
+    #     print(key, ":", value)
+    #     assert bta.pre_traversal_stack(root) == value
+    bta.level_order()
